@@ -1,0 +1,64 @@
+<html>
+    <head>
+        <title>
+            python button
+        </title>
+    </head>
+    <style>
+        #container {
+            width: 400px;
+            height: 400px;
+            position: relative;
+            background: yellow;
+        }
+        #animate {
+            width: 50px;
+            height: 50px;
+            position: absolute;
+            background-color: red;
+        }
+    </style>
+    <body>
+        
+        <button onclick="location.href = '{% url 'script' %}' ">execute script</button> <hr>
+        <button onclick="myMove()">Fuck me</button>
+        <div id ="container">
+            <div id ="animate"></div>
+        </div>
+        
+        {% for x in data %}
+            {{x}}
+        {% endfor %}
+        
+        <script type = "text/javascript">
+            
+        
+            // var a = "{{someDjangoVariable}}";
+            // document.addEventListener("mousemove", () => {
+            //     mousex = event.clientX;
+            //     mousex =  "{{x.0}}"; // Gets Mouse X
+            //     mousey = event.clientY;
+            //     mousey = "{{x.1}}"; // Gets Mouse Y
+            //     console.log([mousex, mousey]); // Prints data
+            //     });
+            function myMove() {
+               
+                var data = JSON.parse("{{data|escapejs}}");
+                let id = null;
+                const elem = document.getElementById("animate");   
+                let pos = 0;
+                clearInterval(id);
+                id = setInterval(frame, 5);
+                function frame() {
+                    if (pos == 350) {
+                        clearInterval(id);
+                    } else {
+                        pos++; 
+                        elem.style.top = data[0]+ "px"; 
+                        elem.style.left = data[1] + "px"; 
+                    }
+                }
+            }
+        </script>
+    </body>
+</html>
